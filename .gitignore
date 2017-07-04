@@ -1,0 +1,9 @@
+/*.build
+/*.changes
+/*.upload
+/*.dsc
+/*.tar.gz
+/libdrm-rockchip
+/libmali
+/mpp
+/xserver
