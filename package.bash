@@ -2,13 +2,14 @@
 
 set -xe
 
-if [[ $# -ne 2 ]]; then
-    echo "usage: $0 project-name branch-name"
+if [[ $# -ne 2 && $# -ne 3 ]]; then
+    echo "usage: $0 project-name branch-name package-name"
     exit 1
 fi
 
 PROJECT_NAME="$1"
 BRANCH_NAME="$2"
+PACKAGE_NAME="${3-$1}"
 shift 2
 
 if [[ ! -d "$PROJECT_NAME" ]]; then
@@ -31,5 +32,6 @@ dch -M -U -D xenial -l ayufan Automated release
 git commit -am "Bump version"
 git push
 
+rm -f ../${PACKAGE_NAME}_*
 debuild -S -sa -kB11A62DE
-dput ppa:ayufan/rock64-ppa ../$PROJECT_NAME*.changes
+dput ppa:ayufan/rock64-ppa ../${PACKAGE_NAME}_*.changes

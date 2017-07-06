@@ -1,25 +1,14 @@
-init:
-	git subtree add --prefix=xserver https://github.com/rockchip-linux/xserver rockchip-1.18
-	git subtree add --prefix=mpp https://github.com/rock64-linux/libmali rockchip
-	git subtree add --prefix=libdrm-rockchip https://github.com/rockchip-linux/libdrm-rockchip rockchip-2.4.74
-	git subtree add --prefix=libmali https://github.com/rock64-linux/libmali rockchip
+TARGETS := libmali libdrm-rockchip xserver mpp gstreamer-rockchip
 
-upstream:
-	git subtree pull --prefix=xserver https://github.com/rockchip-linux/xserver rockchip-1.18
-	git subtree pull --prefix=mpp https://github.com/rock64-linux/libmali rockchip
-	git subtree pull --prefix=libdrm-rockchip https://github.com/rockchip-linux/libdrm-rockchip rockchip-2.4.74
-	git subtree pull --prefix=libmali https://github.com/rock64-linux/libmali rockchip
+.PHONY: $(TARGETS)
 
-fork:
-	git subtree pull --prefix=xserver https://github.com/ayufan-rock64/xserver rockchip-1.18
-	git subtree pull --prefix=mpp https://github.com/ayufan-rock64/libmali rockchip
-	git subtree pull --prefix=libdrm-rockchip https://github.com/ayufan-rock64/libdrm-rockchip rockchip-2.4.74
-	git subtree pull --prefix=libmali https://github.com/ayufan-rock64/libmali rockchip
+all: $(TARGETS)
 
-.PHONY: libmali libdrm-rockchip xserver mpp
+gstreamer-rockchip:
+	bash package.bash gstreamer-rockchip master gstreamer1.0-rockchip
 
 libmali:
-	bash package.bash libmali rockchip
+	bash package.bash libmali rockchip libmali-rk
 
 libdrm-rockchip:
 	bash package.bash libdrm-rockchip rockchip-2.4.74
