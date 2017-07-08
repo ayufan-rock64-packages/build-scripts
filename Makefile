@@ -14,7 +14,7 @@ libdrm-rockchip:
 	bash package.bash libdrm-rockchip rockchip-2.4.74
 
 xserver:
-	bash package.bash xserver rockchip-1.18
+	bash package.bash xserver rockchip-1.18 xorg-server
 
 mpp:
 	bash package.bash mpp for_linux
