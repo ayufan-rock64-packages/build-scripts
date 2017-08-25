@@ -2,25 +2,27 @@
 
 set -xe
 
-if [[ $# -ne 2 && $# -ne 3 ]]; then
-    echo "usage: $0 project-name branch-name package-name"
+if [[ $# -le 3 || $# -gt 4 ]]; then
+    echo "usage: $0 group-name project-name branch-name [package-name distro-xenial-zesty]"
     exit 1
 fi
 
-PROJECT_NAME="$1"
-BRANCH_NAME="$2"
-PACKAGE_NAME="${3-$1}"
-shift 2
+GROUP_NAME="$1"
+PROJECT_NAME="$2"
+BRANCH_NAME="$3"
+PACKAGE_NAME="${4-$2}"
+DISTRO="${5-xenial}"
 
 if [[ ! -d "$PROJECT_NAME" ]]; then
     git clone "https://github.com/ayufan-rock64/$PROJECT_NAME" --branch="$BRANCH_NAME"
 fi
 
 pushd "$PROJECT_NAME"
+git checkout "$BRANCH_NAME"
 rev=$(git rev-parse HEAD)
 trap "git reset --hard $rev" ERR
 
-git pull "https://github.com/rockchip-linux/$PROJECT_NAME" "$BRANCH_NAME"
+git pull "https://github.com/$GROUP_NAME/$PROJECT_NAME" "$BRANCH_NAME"
 new_rev=$(git rev-parse HEAD)
 
 if [[ "$rev" == "$new_rev" ]] && [[ -z "$FORCE" ]]; then
@@ -28,7 +30,7 @@ if [[ "$rev" == "$new_rev" ]] && [[ -z "$FORCE" ]]; then
     exit 0
 fi
 
-dch -M -U -D xenial -l ayufan Automated release
+dch -M -U -D "$DISTRO" -l ayufan Automated release
 git commit -am "Bump version"
 git push
 
