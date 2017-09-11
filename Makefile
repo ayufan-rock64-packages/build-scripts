@@ -23,4 +23,4 @@ xf86-video-armsoc:
 	bash package.bash mmind xf86-video-armsoc packaging/debian xserver-xorg
 
 mpp:
-	bash package.bash mpp for_linux
+	bash package.bash rockchip-linux mpp release

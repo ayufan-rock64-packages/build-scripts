@@ -2,7 +2,7 @@
 
 set -xe
 
-if [[ $# -le 3 || $# -gt 4 ]]; then
+if [[ $# -lt 3 || $# -gt 4 ]]; then
     echo "usage: $0 group-name project-name branch-name [package-name distro-xenial-zesty]"
     exit 1
 fi
@@ -22,7 +22,11 @@ git checkout "$BRANCH_NAME"
 rev=$(git rev-parse HEAD)
 trap "git reset --hard $rev" ERR
 
-git pull "https://github.com/$GROUP_NAME/$PROJECT_NAME" "$BRANCH_NAME"
+git pull "https://github.com/$GROUP_NAME/$PROJECT_NAME" "$BRANCH_NAME" || (
+    echo Press ENTER to continue
+    read PROMPT
+    git commit
+)
 new_rev=$(git rev-parse HEAD)
 
 if [[ "$rev" == "$new_rev" ]] && [[ -z "$FORCE" ]]; then
