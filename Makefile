@@ -17,10 +17,38 @@ xserver-1.18:
 	bash package.bash rockchip-linux xserver rockchip-1.18 xorg-server xenial
 
 xserver-1.19:
-	bash package.bash rockchip-linux xserver rockchip-1.19 xorg-server zesty
+	bash package.bash rockchip-linux xserver rockchip-1.19 xorg-server bionic
 
 xf86-video-armsoc:
-	bash package.bash mmind xf86-video-armsoc packaging/debian xserver-xorg
+	bash package.bash rockchip-linux xf86-video-armsoc master xf86-video-armsoc bionic
 
 mpp:
 	bash package.bash rockchip-linux mpp release
+
+.PHONY: shell32		# run docker shell to build image
+shell32:
+	@echo Building environment...
+	@docker build -q -t rock64-package-build:arm32 environment/arm32v7/
+	@echo Entering shell...
+	@docker run --rm \
+		-it \
+		-e HOME -v $(HOME):$(HOME) \
+		--privileged \
+		-h rock64-package-build-env \
+		-v $(CURDIR):$(CURDIR) \
+		-w $(CURDIR) \
+		rock64-package-build:arm32
+
+.PHONY: shell64		# run docker shell to build image
+shell64:
+	@echo Building environment...
+	@docker build -q -t rock64-package-build:arm64 environment/arm64v8/
+	@echo Entering shell...
+	@docker run --rm \
+		-it \
+		-e HOME -v $(HOME):$(HOME) \
+		--privileged \
+		-h rock64-package-build-env \
+		-v $(CURDIR):$(CURDIR) \
+		-w $(CURDIR) \
+		rock64-package-build:arm64
