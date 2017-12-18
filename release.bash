@@ -18,7 +18,7 @@ fi
 rm -f "${SOURCENAME}"_*.*
 
 pushd "$SOURCENAME"
-debuild -S -sa -kB11A62DE -d \
+debuild -S -sa -kB11A62DE -d -I.git \
   --changes-option=-Ddistribution="${DISTRIBUTION}" \
   --release-by="Kamil Trzcinski <ayufan@ayufan.eu>"
 popd
