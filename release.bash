@@ -29,9 +29,13 @@ fi
 echo "Cleaning previous packages..."
 rm -f "${PACKAGE_FILE}.dsc" "${PACKAGE_FILE}_source.*"
 
-echo "Creating tag '${TAG_NAME}'..."
-git tag -a -m "${dpkg-parsechangelog}" "${TAG_NAME}"
-trap 'git tag -d "${TAG_NAME}"' EXIT
+if [[ -d .git ]]; then
+  echo "Creating tag '${TAG_NAME}'..."
+  git tag -a -m "${dpkg-parsechangelog}" "${TAG_NAME}"
+  trap 'git tag -d "${TAG_NAME}"' EXIT
+else
+  echo "Skipping tag creation, missing .git"
+fi
 
 echo "Building package for '${DISTRIBUTION}'..."
 debuild -S -sa -kB11A62DE -d -I.git \
@@ -41,8 +45,10 @@ debuild -S -sa -kB11A62DE -d -I.git \
 echo "Uploading package '${PACKAGE_FILE}_source.changes'..."
 dput ppa:ayufan/rock64-ppa "${PACKAGE_FILE}_source.changes"
 
-echo "Uploading tag '${TAG_NAME}'..."
-git push ayufan "${TAG_NAME}" || git push origin "${TAG_NAME}"
-trap - EXIT
+if [[ -d .git ]]; then
+  echo "Uploading tag '${TAG_NAME}'..."
+  git push ayufan "${TAG_NAME}" || git push origin "${TAG_NAME}"
+  trap - EXIT
+fi
 
 echo "Done."
