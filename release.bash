@@ -14,14 +14,14 @@ echo "Entering $PACKAGE_DIR..."
 cd "$PACKAGE_DIR"
 
 SOURCE=$(dpkg-parsechangelog -S Source)
-VERSION=$(dpkg-parsechangelog -S Version)
+VERSION=$(dpkg-parsechangelog -S Version | sed 's/.*://')
 TAG_NAME="ayufan/rock64-ppa/${VERSION}/${DISTRIBUTION}"
 
 echo "Building package '${SOURCE}' and '${VERSION}'..."
 
 PACKAGE_FILE="../${SOURCE}_${VERSION}"
 
-if ! git diff-files --quiet; then
+if [[ -d .git ]] && ! git diff-files --quiet; then
   echo "Dirty repository. Commit changes!"
   exit 1
 fi
