@@ -43,7 +43,7 @@ debuild -S -sa -kB11A62DE -d -I.git \
   --release-by="Kamil Trzcinski <ayufan@ayufan.eu>"
 
 echo "Uploading package '${PACKAGE_FILE}_source.changes'..."
-dput ppa:ayufan/rock64-ppa "${PACKAGE_FILE}_source.changes"
+dput ppa:ayufan/rock64-testing-ppa "${PACKAGE_FILE}_source.changes"
 
 if [[ -d .git ]]; then
   echo "Uploading tag '${TAG_NAME}'..."
