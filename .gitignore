@@ -3,8 +3,11 @@
 /*.upload
 /*.dsc
 /*.tar.gz
+/*.tar.xz
+/*.buildinfo
 /libdrm-rockchip
 /libmali
 /mpp
 /xserver
 /gstreamer-rockchip
+/ffmpeg-*/
