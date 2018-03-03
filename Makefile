@@ -27,8 +27,6 @@ mpp:
 
 .PHONY: shell32		# run docker shell to build image
 shell32:
-	@echo Building environment...
-	@docker build -q -t rock64-package-build:arm32 environment/arm32v7/
 	@echo Entering shell...
 	@docker run --rm \
 		-it \
@@ -37,12 +35,10 @@ shell32:
 		-h rock64-package-build-env \
 		-v $(CURDIR):$(CURDIR) \
 		-w $(CURDIR) \
-		rock64-package-build:arm32
+		ayufan/rock64-dockerfiles:arm32
 
 .PHONY: shell64		# run docker shell to build image
 shell64:
-	@echo Building environment...
-	@docker build -q -t rock64-package-build:arm64 environment/arm64v8/
 	@echo Entering shell...
 	@docker run --rm \
 		-it \
@@ -51,4 +47,4 @@ shell64:
 		-h rock64-package-build-env \
 		-v $(CURDIR):$(CURDIR) \
 		-w $(CURDIR) \
-		rock64-package-build:arm64
+		ayufan/rock64-dockerfiles:arm64
