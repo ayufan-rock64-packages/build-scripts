@@ -25,6 +25,10 @@ xf86-video-armsoc:
 mpp:
 	bash package.bash rockchip-linux mpp release
 
+clean:
+	rm -f $(filter-out $(wildcard *.orig.tar.*), \
+		$(wildcard *.tar.gz *.tar.xz *.dsc *.build *.buildinfo *.changes *.ppa.upload))
+
 .PHONY: shell32		# run docker shell to build image
 shell32:
 	@echo Entering shell...
