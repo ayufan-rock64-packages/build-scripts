@@ -38,7 +38,7 @@ else
 fi
 
 echo "Building package for '${DISTRIBUTION}'..."
-debuild -S -sa -kB11A62DE -d -I.git \
+debuild -S -sa -kB11A62DE -d -I.git -I.vscode \
   --changes-option=-Ddistribution="${DISTRIBUTION}" \
   --release-by="Kamil Trzcinski <ayufan@ayufan.eu>"
 
