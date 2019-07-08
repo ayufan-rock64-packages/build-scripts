@@ -26,29 +26,5 @@ mpp:
 	bash package.bash rockchip-linux mpp release
 
 clean:
-	rm -f $(filter-out $(wildcard *.orig.tar.*), \
-		$(wildcard *.tar.gz *.tar.xz *.dsc *.build *.buildinfo *.changes *.ppa.upload))
-
-.PHONY: shell32		# run docker shell to build image
-shell32:
-	@echo Entering shell...
-	@docker run --rm \
-		-it \
-		-e HOME -v $(HOME):$(HOME) \
-		--privileged \
-		-h rock64-package-build-env \
-		-v $(CURDIR):$(CURDIR) \
-		-w $(CURDIR) \
-		ayufan/rock64-dockerfiles:arm32
-
-.PHONY: shell64		# run docker shell to build image
-shell64:
-	@echo Entering shell...
-	@docker run --rm \
-		-it \
-		-e HOME -v $(HOME):$(HOME) \
-		--privileged \
-		-h rock64-package-build-env \
-		-v $(CURDIR):$(CURDIR) \
-		-w $(CURDIR) \
-		ayufan/rock64-dockerfiles:arm64
+	rm -f $(filter-out $(wildcard *.orig.tar.*) $(wildcard *.debian.tar.*), \
+		$(wildcard *.tar.gz *.tar.xz *.dsc *.build *.buildinfo *.changes *.ppa.upload *.ddeb *.deb))
